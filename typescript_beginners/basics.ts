@@ -45,3 +45,5 @@ displayInfo(person1)
 let age: number[] = [100, 101]
 
 let people: Person[] = [person1, person2]
+
+// let people: Array<Person>[] = [person1,person2]

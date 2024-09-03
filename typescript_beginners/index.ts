@@ -28,6 +28,7 @@ function placeOrder(pizzaName: string) {
     const selectedPizza = menu.find(pizzaObj => pizzaObj.name === pizzaName)
     if (!selectedPizza) {
         console.error(`${pizzaName} does not exist in the menu`)
+        return
     }
     cashInRegister += selectedPizza.price
     const newOrder = {id: nextOrderId++, pizza: selectedPizza, status: "ordered" }
@@ -37,6 +38,10 @@ function placeOrder(pizzaName: string) {
 
 function completeOrder(orderId){1
     const order = orderQueue.find(order => order.id === orderId)
+    if (!order) {
+        console.error(`${orderId} was not found in the orderQueue`)
+        return
+    }
     order.status = "completed"
     return order
 }
