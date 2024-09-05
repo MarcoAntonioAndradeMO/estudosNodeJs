@@ -10,26 +10,32 @@ type Order = {
     status: "ordered" | "completed",
 }
 
-const menu: Pizza[] = [
-    {id: 1,name: "Margherita", price: 8},
-    {id: 2,name: "Pepperoni", price: 10},
-    {id: 3,name: "Hawaiian", price: 10},
-    {id: 4,name: "Veggie", price: 9},
-]
-
 let cashInRegister: number = 100;
 let nextOrderId: number = 1
+let nextPizzaId: number = 1
 const orderQueue: Order[] = []
 
-function addNewPizza(pizzaObj: Pizza): void{
-    menu.push(pizzaObj)
+const menu: Pizza[] = [
+    {id: nextPizzaId++,name: "Margherita", price: 8},
+    {id: nextPizzaId++,name: "Pepperoni", price: 10},
+    {id: nextPizzaId++,name: "Hawaiian", price: 10},
+    {id: nextPizzaId++,name: "Veggie", price: 9},
+]
+
+function addNewPizza(pizzaObj: Omit<Pizza, "id">): Pizza{
+    const newPizza: Pizza = {
+        id: nextPizzaId,
+        ...pizzaObj
+    }
+    menu.push(newPizza)
+    return newPizza
 }
 
-function placeOrder(pizzaName: string) {
+function placeOrder(pizzaName: string): Order | undefined {
     const selectedPizza = menu.find(pizzaObj => pizzaObj.name === pizzaName)
     if (!selectedPizza) {
         console.error(`${pizzaName} does not exist in the menu`)
-        return
+        return 
     }
     cashInRegister += selectedPizza.price
     const newOrder: Order = {id: nextOrderId++, pizza: selectedPizza, status: "ordered" }
@@ -37,7 +43,7 @@ function placeOrder(pizzaName: string) {
     return newOrder
 }
 
-function completeOrder(orderId){1
+function completeOrder(orderId): Order | undefined {1
     const order = orderQueue.find(order => order.id === orderId)
     if (!order) {
         console.error(`${orderId} was not found in the orderQueue`)
@@ -47,7 +53,7 @@ function completeOrder(orderId){1
     return order
 }
 
-export function getPizzaDetail(identifier: string | number) {
+export function getPizzaDetail(identifier: string | number): Pizza | undefined{
     if (typeof identifier === "string") {
         return menu.find(pizza => pizza.name.toLowerCase() === identifier.toLowerCase())
     } else if (typeof identifier === "number"){
@@ -57,9 +63,9 @@ export function getPizzaDetail(identifier: string | number) {
     }
 }
 
-addNewPizza({id: 5, name: "Chicken Bacon Ranch", price: 12})
-addNewPizza({id: 6, name: "BBQ Chicken", price: 12})
-addNewPizza({id: 7, name: "Spicy Sausage", price: 11})
+addNewPizza({ name: "Chicken Bacon Ranch", price: 12})
+addNewPizza({ name: "BBQ Chicken", price: 12})
+addNewPizza({ name: "Spicy Sausage", price: 11})
 
 placeOrder("Chicken Bacon Ranch")
 completeOrder("1")
