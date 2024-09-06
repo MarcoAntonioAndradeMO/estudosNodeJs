@@ -23,5 +23,12 @@ const ProductSchema = mongoose.Schema(
             type: String,
             required: false,
         }
+    },
+    {
+        Timestamp: true,
     }
 );
+
+const Product = mongoose.model("Product", ProductSchema);
+
+module.exports = Product;
