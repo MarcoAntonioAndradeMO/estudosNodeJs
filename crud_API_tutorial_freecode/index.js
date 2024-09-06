@@ -60,6 +60,26 @@ app.put('/api/product/:id', async (req, res) => {
     }
 })
 
+
+//Delete API
+app.delete('/api/product/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+
+        await Product.findByIdAndDelete(id);
+
+        if (!product) {
+            return res.status(404).json({message: "Product not found"})
+    
+        }
+
+        res.status(200).json({message: "Product deleted successfuly"})
+        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
 mongoose.connect("mongodb+srv://marcoantonioandrade05:32663112Ma@crudapitutorial.llwze.mongodb.net/Node-API?retryWrites=true&w=majority&appName=CRUDAPITUTORIAL")
 .then(() => {
     console.log("Connected to database!")
