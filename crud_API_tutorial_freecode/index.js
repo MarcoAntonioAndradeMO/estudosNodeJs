@@ -19,6 +19,14 @@ app.post('/api/products', async (req, res) => {
     }
 });
 
+app.get('./api/products', async (req, res) => {
+    try {
+        const products = await Product.find({});
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
 mongoose.connect("mongodb+srv://marcoantonioandrade05:32663112Ma@crudapitutorial.llwze.mongodb.net/Node-API?retryWrites=true&w=majority&appName=CRUDAPITUTORIAL")
 .then(() => {
     console.log("Connected to database!")
