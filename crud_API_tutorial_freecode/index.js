@@ -3,9 +3,12 @@ const mongoose = require('mongoose');
 const Product = require('./models/product.model.js');
 const app = express();
 
+//Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 
+//Routes
+app.use("/api/products", productRoute);
 
 app.get('/', (req, res) => {
      res.send("Hello from node API Server");
@@ -21,18 +24,7 @@ app.post('/api/products', async (req, res) => {
     }
 });
 
-//Listar todos os Produtos (Read)
-app.get('/api/products', async (req, res) => {
-    try {
-        const products = await Product.find({});
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-});
 
-// Selecionar Produto (Read Only)
-// Falta selecionar o ID
 app.get('/api/products/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -44,7 +36,7 @@ app.get('/api/products/:id', async (req, res) => {
 });
 
 // Update
-app.put('/api/product/:id', async (req, res) => {
+app.put('/api/products/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -63,7 +55,7 @@ app.put('/api/product/:id', async (req, res) => {
 
 
 //Delete API
-app.delete('/api/product/:id', async (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
     try {
         const { id } = req.params
 
